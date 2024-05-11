@@ -95,7 +95,7 @@ function Dashboard() {
       </div>
       {/* Modal for displaying detailed data */}
       <Modal isOpen={isModalOpen} onRequestClose={handleCloseModal} style={customModalStyles}>
-        <h2>{selectedCrypto  ? `Data Table for ${selectedCrypto.toUpperCase()}` : ''}</h2>
+        <h2>{typeof selectedCrypto === 'string'  ? `Data Table for ${selectedCrypto.toUpperCase()}` : ''}</h2>
         {selectedPairData && (
           <DataTable
             columns={columns}
