@@ -73,7 +73,6 @@ function Dashboard() {
         },
         body: JSON.stringify({ beginDate, endDate })
       });
-      console.log(JSON.stringify({ beginDate, endDate }))
       
       if (!response.ok) {
         throw new Error('Failed to log data range');
