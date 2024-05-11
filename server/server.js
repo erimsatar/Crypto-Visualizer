@@ -1,8 +1,28 @@
 const express = require('express');
 const pool = require('./db');
+const { logDataRange } = require('./mongo');
+const bodyParser = require('body-parser');
+require('dotenv').config();
 
 const app = express();
-const port = 3000;
+app.use(bodyParser.json());
+
+const port = process.env.PORT;
+
+app.post('/log', async (req, res) => {
+    const { beginDate, endDate } = req.body;
+    if (!beginDate || !endDate) {
+        return res.status(400).json({ error: 'Both beginDate and endDate are required.' });
+    }
+
+    try {
+        await logDataRange(beginDate, endDate);
+        res.status(200).json({ message: 'Data range logged successfully.' });
+    } catch (error) {
+        console.error('Error logging data range:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
 
 app.get('/:pair', async (req, res) => {
     const pair = req.params.pair.toLowerCase();
@@ -53,7 +73,6 @@ app.get('/:pair', async (req, res) => {
     }
 });
 
-// Function to validate date format
 function isValidDate(dateString) {
     const regex = /^\d{4}-\d{2}-\d{2}$/;
     return regex.test(dateString);

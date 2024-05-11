@@ -32,11 +32,13 @@ function Dashboard() {
   const handleDateRangeChange = (start, end) => {
     setStartDate(start);
     setEndDate(end);
-    fetchCryptoData(start, end); 
+    fetchCryptoData(start, end);
+    logDataRange(start, end); 
   };
 
   useEffect(() => {
-    fetchCryptoData(startDate, endDate); 
+    fetchCryptoData(startDate, endDate);
+    logDataRange(startDate, endDate);
   }, []); 
 
   const fetchCryptoData = (start, end) => {
@@ -60,6 +62,29 @@ function Dashboard() {
         console.error('Error fetching crypto data:', error);
       });
   };
+
+  const logDataRange = async (beginDate, endDate) => {
+    try {
+      console.log("Trying to log.")
+      const response = await fetch('/log', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ beginDate, endDate })
+      });
+      console.log(JSON.stringify({ beginDate, endDate }))
+      
+      if (!response.ok) {
+        throw new Error('Failed to log data range');
+      }
+      
+      console.log('Data range logged successfully');
+    } catch (error) {
+      console.error('Error logging data range:', error);
+      throw error;
+    }
+  }
 
   const handleCardClick = (pair, data) => {
     console.log(pair)
