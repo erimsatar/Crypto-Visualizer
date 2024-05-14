@@ -1,0 +1,16 @@
+version: '3'
+services:
+  backend:
+    build: ./server
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./server/.env
+    volumes:
+      - ./server:/usr/src/app
+  frontend:
+    build: ./client
+    ports:
+      - "80:80"
+    volumes:
+      - ./client:/usr/src/app

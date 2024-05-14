@@ -46,7 +46,7 @@ function Dashboard() {
 
     Promise.all(
       pairs.map(pair =>
-        fetch(`/${pair}?startDate=${start}&endDate=${end}`)
+        fetch(`http://localhost:3000/${pair}?startDate=${start}&endDate=${end}`)
           .then(response => response.json())
           .then(data => ({ pair, data }))
       )
@@ -66,7 +66,7 @@ function Dashboard() {
   const logDataRange = async (beginDate, endDate) => {
     try {
       console.log("Trying to log.")
-      const response = await fetch('/log', {
+      const response = await fetch('http://localhost:3000/log', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
